@@ -1,0 +1,14 @@
+# The app lives in nolemode-github.zip. Netlify unpacks it on every deploy.
+# To update the app, upload a new nolemode-github.zip with the same name.
+[build]
+  command = "rm -rf /tmp/nm && unzip -oq nolemode-github.zip -d /tmp/nm && cp -r /tmp/nm/nolemode/. . && npm install --no-audit --no-fund"
+  publish = "site"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
