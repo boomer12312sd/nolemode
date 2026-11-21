@@ -1,0 +1,14 @@
+# The app lives in the newest nolemode-github*.zip in this repository.
+# To update the app, upload a new zip: the most recently committed one is used.
+[build]
+  command = '''Z="$(for f in nolemode-github*.zip; do printf '%s\t%s\n' "$(git log -1 --format=%ct -- "$f" 2>/dev/null)" "$f"; done | sort -n | tail -1 | cut -f2-)" && echo "Using $Z" && rm -rf /tmp/nm && unzip -oq "$Z" -d /tmp/nm && cp -r /tmp/nm/nolemode/. . && npm install --no-audit --no-fund'''
+  publish = "site"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
